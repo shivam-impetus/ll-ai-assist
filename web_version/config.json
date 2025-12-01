@@ -1,0 +1,18 @@
+{
+  "api": {
+    "protocol": "http",
+    "host": "127.0.0.1",
+    "port": "8000",
+    "endpoints": {
+      "generateAnswer": "/generate-answer",
+      "getStatistics": "/get-statistics",
+      "getModelName": "/get-model-name",
+      "reloadKnowledgeBase": "/reload-knowledge-base"
+    }
+  },
+  "ui": {
+    "defaultKnowledgeBase": "Leaplogic",
+    "defaultSource": "Teradata",
+    "defaultTarget": "PySpark"
+  }
+}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaplogic AI Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <div class="header-bar">
+        <div class="header-left">
+            <button id="sidebarToggle" class="sidebar-toggle">
+                ☰
+            </button>
+            <div class="logo">
+                <img src="https://www.leaplogic.io/wp-content/themes/leaplogic/assets/images/logo-leaplogic-impetus.svg" alt="Leaplogic" class="logo-img">
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-content">              
+                <!-- Knowledge Base Selector -->
+                <div class="form-group">
+                    <label for="knowledgeBase">Select Knowledge Base</label>
+                    <select id="knowledgeBase" class="form-select">
+                        <option value="Leaplogic">Leaplogic</option>
+                        <option value="wm-python Framework">wm-python Framework</option>
+                    </select>
+                </div>
+
+                <!-- Leaplogic Sub-options -->
+                <div id="leaplogicOptions" class="leaplogic-options">
+                    <div class="form-group">
+                        <label for="source">Source</label>
+                        <select id="source" class="form-select">
+                            <option value="Teradata">Teradata</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target">Target</label>
+                        <select id="target" class="form-select">
+                            <option value="PySpark">PySpark</option>
+                            <option value="Redshift">Redshift</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="sidebar-section">
+                    <h3>ℹ️ About</h3>
+                    <div class="info-box">
+                        <strong>Leaplogic Documentation Assistant</strong><br>
+                        Ask questions and get answers on leaplogic and wm-python.
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Configuration Section -->
+                <div class="sidebar-section">
+                    <h3>⚙️ Configuration</h3>
+                    
+                    <!-- Model Info Card -->
+                    <div class="stat-card">
+                        <div class="stat-value">🤖</div>
+                        <div class="stat-label">Model</div>
+                        <div class="stat-detail" id="modelName">gemma-3-27b-it</div>
+                    </div>
+
+                    <!-- Documentation Info Card -->
+                    <div class="stat-card">
+                        <div class="stat-value">📄</div>
+                        <div class="stat-label">Documentation</div>
+                        <div class="stat-detail" id="docInfo">24 files, 156 chunks</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Statistics Section -->
+                <div class="sidebar-section" id="statisticsSection">
+                    <h3>📊 Statistics</h3>
+                    <div class="stat-card">
+                        <div class="stat-value" id="messageCount">0</div>
+                        <div class="stat-label">Messages in conversation</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Actions Section -->
+                <div class="sidebar-section">
+                    <h3>🔧 Actions</h3>
+                    <button id="clearChatBtn" class="action-btn">
+                        🗑️ Clear Chat History
+                    </button>
+                    <button id="reloadDbBtn" class="action-btn">
+                        🔄 Reload Database
+                    </button>
+                    <button id="viewLoggedQuestionsBtn" class="action-btn">
+                        📋 View Logged Questions
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Status Section -->
+                <div class="sidebar-section">
+                    <h3>📡 Status</h3>
+                    <div class="success-box">
+                        <strong>✅ System Ready</strong><br>
+                        Documentation loaded and ready to answer questions
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Quick Tips -->
+                <div class="sidebar-section">
+                    <details class="tips-expandable">
+                        <summary>💡 Quick Tips </summary>
+                        <div class="tips-content">
+                            <ul>
+                                <li><strong>Be specific</strong>: Ask detailed questions for better answers</li>
+                                <li><strong>Use examples</strong>: Request code examples when needed</li>
+                                <li><strong>Follow-up</strong>: Ask clarifying questions based on previous answers</li>
+                                <li><strong>Check sources</strong>: View source documents to learn more</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Header -->
+            <div class="header-container">
+                <div class="header-title">Leaplogic — Documentation Assistant</div>
+                <p class="header-subtitle">Ask questions against your queries.</p>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container" id="chatContainer">
+                <!-- Welcome Message -->
+                <div class="welcome-message" id="welcomeMessage">
+                    <div class="welcome-content">
+                        <div class="welcome-title">👋 Welcome!</div>
+                        <p class="welcome-text">I'm your AI assistant, ready to help you understand and use the docs.</p>
+                        <p class="welcome-subtext">Ask me anything about the docs below ⬇️</p>
+                    </div>
+
+                    <!-- Example Questions -->
+                    <div class="example-questions">
+                        <h3>💭 Example Questions</h3>
+                        <div class="example-buttons">
+                            <div class="example-row">
+                                <button class="example-btn leaplogic-example" data-question="How is zeroifnull function converted in Pyspark?">
+                                    🔄 How does LeapLogic convert ZEROIFNULL function?
+                                </button>
+                                <button class="example-btn leaplogic-example" data-question="Why is derivedTable subquery created?">
+                                    🔤 Why is derivedTable subquery created?
+                                </button>
+                                <button class="example-btn common-example" data-question="What does the WMG framework do?" style="display: none;">
+                                    🏗️ What does the framework do?
+                                </button>
+                                <button class="example-btn common-example" data-question="How is a query executed on AWS Glue?" style="display: none;">
+                                    ⚙️ How is a query executed on Glue?
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" id="chatInput" placeholder="💬 Ask me anything about the docs...">
+                    <button id="sendBtn" class="send-btn" disabled>
+                        <i class="send-icon">➤</i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Dashboard (hidden by default) -->
+            <div class="review-dashboard" id="reviewDashboard" style="display: none;">
+                <div class="dashboard-header">
+                    <div class="header-container">
+                        <div class="header-title">📋 Logged Questions & Feedback</div>
+                        <p class="header-subtitle">Review user feedback on questions and answers</p>
+                    </div>
+                    <button id="backToChatBtn" class="back-btn">
+                        ⬅️ Back to Chat
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Feedback Statistics -->
+                <div class="feedback-stats">
+                    <h3>📊 Feedback Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalQuestions">12</div>
+                            <div class="stat-label">Total Questions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value helpful" id="helpfulCount">8</div>
+                            <div class="stat-label">Helpful</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value not-helpful" id="notHelpfulCount">2</div>
+                            <div class="stat-label">Not Helpful</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value not-marked" id="notMarkedCount">2</div>
+                            <div class="stat-label">Not Marked</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <h3>🔍 Filter Feedback</h3>
+                    <div class="filters-grid">
+                        <div class="form-group">
+                            <label for="feedbackFilter">Filter by Feedback</label>
+                            <select id="feedbackFilter" class="form-select">
+                                <option value="All">All</option>
+                                <option value="Helpful">Helpful</option>
+                                <option value="Not Helpful">Not Helpful</option>
+                                <option value="Not Marked">Not Marked</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="frameworkFilter">Filter by Knowledge Base</label>
+                            <select id="frameworkFilter" class="form-select">
+                                <option value="All">All</option>
+                                <option value="Leaplogic">Leaplogic</option>
+                                <option value="wm-python Framework">wm-python Framework</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="exportCsvBtn" class="export-btn">
+                        📥 Export to CSV
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Feedback Entries -->
+                <div class="feedback-entries" id="feedbackEntries">
+                    <h3>📝 Feedback Entries (12)</h3>
+                    <!-- Feedback entries will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner-emoji">⏳</div>
+            <p>🤔 Thinking...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- <script src="data.js"></script> -->
+    <script src="script.js"></script>
+</body>
+</html>
