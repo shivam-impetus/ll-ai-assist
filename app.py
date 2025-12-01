@@ -1,22 +1,24 @@
 import streamlit as st
-from fastapi import FastAPI
-from threading import Thread
-import uvicorn
+import subprocess
+import sys
+import socket
 
-api = FastAPI()
+port = 8201
 
+def is_port_in_use(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
 
-@api.get("/api/hello")
-def hello():
-    st.write('hello called')
-    return {"message": "Hello from Streamlit API!"}
+# Start API as a separate process only once
+if "api_started" not in st.session_state:
+    if not is_port_in_use(port):
+        subprocess.Popen(
+            [sys.executable, "-m", "uvicorn", "api_server:api", "--host", "0.0.0.0", "--port", str(port)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    st.session_state.api_started = True
 
-
-def start_api():
-    uvicorn.run("app:api", host="0.0.0.0", port=8201, reload=True)
-
-
-if __name__ == "__main__":
-    Thread(target=start_api, daemon=True).start()
-    st.title("Streamlit with Embedded REST API")
-    st.write("API running on :8000")
+st.title("Streamlit with Embedded REST API")
+st.write(f"API running on: http://localhost:{port}")
+st.write(f"Try: http://localhost:{port}/api/hello")
