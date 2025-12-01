@@ -1,11 +1,23 @@
 import streamlit as st
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from threading import Thread
 import uvicorn
 import socket
 import asyncio
+import time
 
 api = FastAPI()
+
+# Add CORS middleware to allow requests from any origin
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 port = 8201
 
 @api.get("/api/hello")
@@ -38,7 +50,11 @@ if "api_started" not in st.session_state:
     if not is_port_in_use(port):
         thread = Thread(target=start_api, daemon=True)
         thread.start()
+        time.sleep(1)  # Give the server time to start
+
+api_running = is_port_in_use(port)
 
 st.title("Streamlit with Embedded REST API")
-st.write(f"API running on: http://localhost:{port}")
-st.write(f"Try: http://localhost:{port}/api/hello")
+st.write(f"API Status: {'✅ Running' if api_running else '❌ Not Running'}")
+st.write(f"Local: http://localhost:{port}/api/hello")
+st.write(f"Network: http://192.168.1.3:{port}/api/hello")
