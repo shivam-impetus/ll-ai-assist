@@ -1,7 +1,6 @@
 # CONFIGURATION
 
 import os
-import streamlit as st
 from rag_systems.rag_system_factory import RAGSystemFactory, RAGSystemType
 
 # Get the parent folder's docs directory
@@ -39,8 +38,8 @@ DEVICE = get_device()
 # GEMMA_MODEL = "gemini-2.5-flash"
 # GEMMA_MODEL = "gemini-flash-lite-latest"
 GEMMA_MODEL = "gemma-3-27b-it"
-API_KEY = st.secrets.get("API_KEY", "")
-GITHUB_PAT = st.secrets.get("GITHUB_PAT", "")
+API_KEY = os.getenv("API_KEY", "")
+GITHUB_PAT = os.getenv("GITHUB_PAT", "")
 VERIFY_SSL = False
 
 RAG_MODEL = RAGSystemType.GEMMA
