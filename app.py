@@ -8,6 +8,7 @@ api = FastAPI()
 
 @api.get("/api/hello")
 def hello():
+    print('hello called...')
     return {"message": "Hello from Streamlit API!"}
 
 
