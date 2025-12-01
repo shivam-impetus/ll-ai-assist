@@ -1,0 +1,22 @@
+# Requirements for Python 3.13
+# Python 3.13 has limited package support - use compatible versions
+
+# Core dependencies
+numpy>=2.0.0  # Python 3.13 requires numpy 2.x
+streamlit>=1.51.0
+sentence-transformers>=5.1.2
+google-generativeai>=0.8.5
+requests>=2.32.5
+
+# PyTorch - Python 3.13 support (CPU-only to avoid NVIDIA dependencies)
+# Note: PyTorch 3.13 wheels available from official PyTorch repo
+--index-url https://download.pytorch.org/whl/cpu
+torch>=2.9.1
+
+# API dependencies
+fastapi>=0.104.0
+pydantic>=2.5.0
+uvicorn>=0.24.0
+
+# Code conversion
+openai>=2.8.1
