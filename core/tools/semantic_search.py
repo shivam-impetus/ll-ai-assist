@@ -4,13 +4,12 @@
 import sqlite3
 from typing import List, Tuple, Union
 import os
-import glob
 
 import numpy as np
 
-import config
-import utilities as utils
-from embedding_manager import EmbeddingManager
+from core.config import config
+from core.utils import utilities as utils
+from core.tools.embedding_manager import EmbeddingManager
 
 
 class SemanticSearcher:

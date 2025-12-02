@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Optional, List, Union
-from middleware.middleware import Middleware
+from communication.middleware.middleware import Middleware
 import logging, datetime
 from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-app = FastAPI()
+api = FastAPI()
 middleware_instance = Middleware()
 
-app.add_middleware(
+api.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -22,7 +22,20 @@ class QuestionRequest(BaseModel):
     file_filter: Optional[Union[str, List[str]]] = None
     conversation_history: Optional[List[dict]] = None
 
-@app.post("/generate-answer")
+class LoginRequest(BaseModel):
+    login_id: str
+    login_password: str
+
+@api.post("/login")
+async def login(request: LoginRequest):
+    """Handle user login by verifying credentials"""
+    try:
+        result = middleware_instance.login(request.login_id, request.login_password)
+        return result
+    except Exception as e:
+        return {"error": str(e)}
+
+@api.post("/generate-answer")
 async def answer_question(request: QuestionRequest):
     """
     Answer a question using the RAG system
@@ -42,12 +55,12 @@ async def answer_question(request: QuestionRequest):
     except Exception as e:
         return {"error": str(e), "answer": "", "sources": []}
 
-@app.get("/")
+@api.get("/")
 async def root():
     """Root endpoint to check if the API is running"""
     return {"message": "LeapLogic RAG API is running", "version": "1.0.0"}
 
-@app.get("/get-statistics")
+@api.get("/get-statistics")
 async def get_statistics():
     """Health check endpoint"""
     try:
@@ -56,7 +69,7 @@ async def get_statistics():
     except Exception as e:
         return {"error": str(e), "answer": "", "sources": []}
 
-@app.get("/get-model-name")
+@api.get("/get-model-name")
 async def get_model_name():
     """Endpoint to get the name of the model being used"""
     try:
@@ -66,7 +79,7 @@ async def get_model_name():
         return {"error": str(e), "model_name": ""}
     
     
-@app.post("/reload-knowledge-base")
+@api.post("/reload-knowledge-base")
 async def reload_knowledge_base():
     """Endpoint to reload the knowledge base"""
     try:
@@ -75,7 +88,7 @@ async def reload_knowledge_base():
     except Exception as e:
         return {"error": str(e)}
     
-@app.post("/convert-code")
+@api.post("/convert-code")
 async def convert_code(request: QuestionRequest):
     """
     Convert code using the conversion assistant RAG system
@@ -94,9 +107,9 @@ async def convert_code(request: QuestionRequest):
         return result
     except Exception as e:
         return {"error": str(e), "answer": "", "sources": []}
+
     
-    
-@app.middleware("http")
+@api.middleware("http")
 async def log_requests(request, call_next):
     start_time = datetime.datetime.now()    
     client_ip = request.client.host

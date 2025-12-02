@@ -1,7 +1,7 @@
 from openai import OpenAI
 import streamlit as st
-import config
-from rag_systems.base_rag_system import BaseRAGSystem
+from core.config import config
+from core.models.base_rag_system import BaseRAGSystem
 
 
 class OpenAIRAGSystem(BaseRAGSystem):

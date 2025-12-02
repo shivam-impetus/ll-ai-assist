@@ -3,7 +3,7 @@ import pickle
 
 import numpy as np
 
-import config
+from core.config import config
 
 
 def embedding_to_blob(embedding: np.ndarray) -> bytes:

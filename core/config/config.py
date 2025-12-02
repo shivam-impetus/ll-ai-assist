@@ -1,7 +1,7 @@
 # CONFIGURATION
 
 import os
-from rag_systems.rag_system_factory import RAGSystemFactory, RAGSystemType
+from core.models.rag_system_factory import RAGSystemFactory, RAGSystemType
 
 # Get the parent folder's docs directory
 DOCS_FOLDER = "docs" #os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs"))

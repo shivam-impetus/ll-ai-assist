@@ -8,11 +8,10 @@ import os
 from datetime import datetime
 
 import streamlit as st
-import streamlit.components.v1 as components
 
-import config
-from rag_systems.gemma_rag_system import GemmaRAGSystem
-from Chat_Bot.rag_systems.openai_rag_system import ConversionAssistant
+from core.config import config
+from core.models.gemma_rag_system import GemmaRAGSystem
+from core.models.openai_rag_system import ConversionAssistant
 
 CSV_LOG_DIR = "logged_questions"
 CSV_LOG_FILE = os.path.join(CSV_LOG_DIR, "feedback_log.csv")

@@ -1,4 +1,4 @@
-from rag_systems.gemma_rag_system import GemmaRAGSystem
+from core.models.gemma_rag_system import GemmaRAGSystem
 import os
 import ssl
 

@@ -3,7 +3,7 @@
 # ==============================
 import numpy as np
 from sentence_transformers import SentenceTransformer
-import config
+from core.config import config
 from typing import List
 import ssl
 import urllib.request

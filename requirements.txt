@@ -1,19 +1,17 @@
 # Core dependencies
 numpy>=1.26.0
 streamlit>=1.51.0
+requests>=2.32.5
+ 
+# AI/ML Models
 sentence-transformers>=5.1.2
 google-generativeai>=0.8.5
-requests>=2.32.5
-
-# PyTorch
-# WARNING: Default torch includes CUDA/NVIDIA dependencies (nvidia_nvtx, etc.)
-# For CPU-only Linux servers, use: pip install -r requirements-cpu.txt
+openai>=2.8.1
 torch>=2.9.1
-
-# API dependencies
+transformers>=4.57.1
+ 
+# API Framework (for controllers)
 fastapi>=0.104.0
 pydantic>=2.5.0
 uvicorn>=0.24.0
-
-# Code conversion
-openai>=2.8.1
+ 

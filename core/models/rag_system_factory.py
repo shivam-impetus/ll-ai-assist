@@ -20,10 +20,10 @@ class RAGSystemFactory(ABC):
             BaseRAGSystem: An instance of a RAG system.
         """
         if system_type.value == 'gemma':
-            from rag_systems.gemma_rag_system import GemmaRAGSystem
+            from core.models.gemma_rag_system import GemmaRAGSystem
             return GemmaRAGSystem(**kwargs)
         elif system_type.value == 'openai':
-            from rag_systems.openai_rag_system import OpenAIRAGSystem
+            from core.models.openai_rag_system import OpenAIRAGSystem
             return OpenAIRAGSystem(**kwargs)  # Placeholder for OpenAI RAG system implementation
         else:
             raise ValueError(f"Unknown RAG system type: {system_type}")

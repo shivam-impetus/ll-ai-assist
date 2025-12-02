@@ -1,6 +1,6 @@
-# Initialize the RAG system
-from config import RAG_MODEL, CONVERSION_RAG_MODEL
-from rag_systems.rag_system_factory import RAGSystemFactory
+import os
+from core.config.config import RAG_MODEL, CONVERSION_RAG_MODEL
+from core.models.rag_system_factory import RAGSystemFactory
 
 
 class Middleware:
@@ -49,3 +49,13 @@ class Middleware:
             dict: Response containing answer, sources, and metadata
         """
         return self.conversion_rag_system.convert_code(question, conversation_history)
+    
+    @staticmethod
+    def login(self, login_id: str, login_password: str) -> dict:
+        """Handle user login by verifying credentials"""
+        login_id= os.getenv("LOGIN_ID")
+        login_password = os.getenv("LOGIN_PASSWORD")
+        if login_id == os.getenv("LOGIN_ID") and login_password == os.getenv("LOGIN_PASSWORD"):
+            return {"message": "Login successful"}
+        else:
+            return {"error": "Invalid login credentials"}

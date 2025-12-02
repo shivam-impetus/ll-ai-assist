@@ -4,16 +4,16 @@ Generates answers using Gemma AI model augmented with knowledge base retrieved f
 Stores embeddings in vector.db for efficient retrieval.
 """
 
-from semantic_search import SemanticSearcher
-from ingest_docs import DocumentIngestion
-from embedding_manager import EmbeddingManager
-import config
+from core.tools.semantic_search import SemanticSearcher
+from core.tools.ingest_docs import DocumentIngestion
+from core.tools.embedding_manager import EmbeddingManager
+from core.config import config
 from typing import Union, List
 import google.generativeai as genai
 import ssl
 import sqlite3
 from datetime import datetime
-from rag_systems.base_rag_system import BaseRAGSystem
+from core.models.base_rag_system import BaseRAGSystem
 import os
 
 # Disable SSL verification globally BEFORE importing google.generativeai

@@ -29,7 +29,7 @@ sudo apt-get install -y python3-pip
 # Create virtual environment
 echo "🔧 Creating virtual environment with Python 3.13..."
 python3.13 -m venv venv
-source venv/bin/activate
+. venv/bin/activate
 
 # Install dependencies
 echo "📚 Installing Python dependencies (Python 3.13 compatible)..."
