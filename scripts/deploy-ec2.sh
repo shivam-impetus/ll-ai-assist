@@ -70,7 +70,7 @@ Environment="PATH=$(pwd)/venv/bin"
 Environment="API_KEY=$API_KEY"
 Environment="GITHUB_PAT=$GITHUB_PAT"
 Environment="PORT=$PORT"
-ExecStart=$(pwd)/venv/bin/uvicorn controllers.rag_system_controller:app --host 0.0.0.0 --port $PORT
+ExecStart=$(pwd)/venv/bin/uvicorn communication.rag_system_controller:app --host 0.0.0.0 --port $PORT
 Restart=always
 RestartSec=10
 
