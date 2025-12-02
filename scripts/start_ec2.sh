@@ -6,11 +6,14 @@ set -e
 
 # Navigate to project directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/.."
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_DIR"
+
+echo "📁 Project directory: $PROJECT_DIR"
 
 # Activate virtual environment if it exists
-if [ -d "venv" ]; then
-    . venv/bin/activate
+if [ -d "$PROJECT_DIR/venv" ]; then
+    . "$PROJECT_DIR/venv/bin/activate"
 fi
 
 # Set environment variables if needed
@@ -20,4 +23,4 @@ echo "Starting LeapLogic RAG API on port $PORT..."
 echo ""
 
 # Run the API with venv uvicorn
-venv/bin/uvicorn communication.rag_system_controller:app --host 0.0.0.0 --port $PORT
+"$PROJECT_DIR/venv/bin/uvicorn" communication.rag_system_controller:app --host 0.0.0.0 --port $PORT

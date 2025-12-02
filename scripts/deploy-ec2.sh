@@ -7,6 +7,14 @@ set -e
 echo "🚀 Starting LeapLogic RAG API deployment on Ubuntu..."
 echo ""
 
+# Initialize project directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_DIR"
+
+echo "📁 Project directory: $PROJECT_DIR"
+echo ""
+
 # Update system
 echo "📦 Updating system packages..."
 sudo apt-get update
@@ -28,13 +36,13 @@ sudo apt-get install -y python3-pip
 
 # Create virtual environment
 echo "🔧 Creating virtual environment with Python 3.13..."
-python3.13 -m venv venv
-. venv/bin/activate
+python3.13 -m venv "$PROJECT_DIR/venv"
+. "$PROJECT_DIR/venv/bin/activate"
 
 # Install dependencies
 echo "📚 Installing Python dependencies (Python 3.13 compatible)..."
 pip install --upgrade pip
-pip install -r ../requirements-py313.txt
+pip install -r "$PROJECT_DIR/requirements-py313.txt"
 
 # Prompt for environment variables
 echo ""
@@ -47,7 +55,7 @@ PORT=${PORT:-8000}
 
 # Create .env file for reference
 echo "Creating .env file..."
-cat > .env <<EOF
+cat > "$PROJECT_DIR/.env" <<EOF
 API_KEY=$API_KEY
 GITHUB_PAT=$GITHUB_PAT
 PORT=$PORT
@@ -65,12 +73,12 @@ After=network.target
 [Service]
 Type=simple
 User=$USER
-WorkingDirectory=$(pwd)
-Environment="PATH=$(pwd)/venv/bin"
+WorkingDirectory=$PROJECT_DIR
+Environment="PATH=$PROJECT_DIR/venv/bin"
 Environment="API_KEY=$API_KEY"
 Environment="GITHUB_PAT=$GITHUB_PAT"
 Environment="PORT=$PORT"
-ExecStart=$(pwd)/venv/bin/uvicorn communication.rag_system_controller:app --host 0.0.0.0 --port $PORT
+ExecStart=$PROJECT_DIR/venv/bin/uvicorn communication.rag_system_controller:app --host 0.0.0.0 --port $PORT
 Restart=always
 RestartSec=10
 
@@ -88,6 +96,7 @@ echo ""
 echo "✅ Deployment complete!"
 echo ""
 echo "📋 Configuration Summary:"
+echo "  Project Directory: $PROJECT_DIR"
 echo "  API Key: ${API_KEY:0:20}..."
 echo "  GitHub PAT: ${GITHUB_PAT:0:20}..."
 echo "  Port: $PORT"

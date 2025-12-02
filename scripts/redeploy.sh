@@ -8,7 +8,12 @@ echo "🔄 Starting LeapLogic RAG API update..."
 echo ""
 
 # Navigate to project directory
-cd "$(dirname "$0")/.."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_DIR"
+
+echo "📁 Project directory: $PROJECT_DIR"
+echo ""
 
 # Pull latest code from git
 echo "📥 Pulling latest code from repository..."
@@ -16,12 +21,12 @@ git pull origin main
 
 # Activate virtual environment
 echo "🔧 Activating virtual environment..."
-. venv/bin/activate
+. "$PROJECT_DIR/venv/bin/activate"
 
 # Update dependencies if requirements changed
 echo "📚 Updating dependencies..."
 pip install --upgrade pip
-pip install -r requirements-py313.txt
+pip install -r "$PROJECT_DIR/requirements-py313.txt"
 
 # Restart the service
 echo "🔄 Restarting service..."
