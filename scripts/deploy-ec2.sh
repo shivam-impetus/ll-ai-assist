@@ -34,7 +34,7 @@ python3.13 -m venv venv
 # Install dependencies
 echo "📚 Installing Python dependencies (Python 3.13 compatible)..."
 pip install --upgrade pip
-pip install -r requirements-py313.txt
+pip install -r ../requirements-py313.txt
 
 # Prompt for environment variables
 echo ""
